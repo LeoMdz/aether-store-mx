@@ -1,45 +1,53 @@
-[
-  {
-    "id": "ff-100",
-    "label": "100 diamantes",
-    "amount": 100,
-    "price": 18,
-    "group": "Diamantes"
-  },
-  {
-    "id": "ff-310",
-    "label": "310 diamantes",
-    "amount": 310,
-    "price": 55,
-    "group": "Diamantes"
-  },
-  {
-    "id": "ff-520",
-    "label": "520 diamantes",
-    "amount": 520,
-    "price": 89,
-    "group": "Diamantes",
-    "featured": true
-  },
-  {
-    "id": "ff-1060",
-    "label": "1,060 diamantes",
-    "amount": 1060,
-    "price": 185,
-    "group": "Diamantes"
-  },
-  {
-    "id": "ff-2180",
-    "label": "2,180 diamantes",
-    "amount": 2180,
-    "price": 370,
-    "group": "Diamantes"
-  },
-  {
-    "id": "ff-5600",
-    "label": "5,600 diamantes",
-    "amount": 5600,
-    "price": 850,
-    "group": "Diamantes"
-  }
-]
+{
+  "unidad": "diamantes",
+  "tasaBase": 0.15178571428571427,
+  "minimoPersonalizado": 50,
+  "maximoPersonalizado": 10000,
+  "personalizadoHabilitado": true,
+  "paqueteBase": "ff-5600",
+  "paquetesFijos": [
+    {
+      "id": "ff-100",
+      "label": "100 diamantes",
+      "amount": 100,
+      "price": 18,
+      "group": "Diamantes"
+    },
+    {
+      "id": "ff-310",
+      "label": "310 diamantes",
+      "amount": 310,
+      "price": 55,
+      "group": "Diamantes"
+    },
+    {
+      "id": "ff-520",
+      "label": "520 diamantes",
+      "amount": 520,
+      "price": 89,
+      "group": "Diamantes",
+      "featured": true
+    },
+    {
+      "id": "ff-1060",
+      "label": "1,060 diamantes",
+      "amount": 1060,
+      "price": 185,
+      "group": "Diamantes"
+    },
+    {
+      "id": "ff-2180",
+      "label": "2,180 diamantes",
+      "amount": 2180,
+      "price": 370,
+      "group": "Diamantes"
+    },
+    {
+      "id": "ff-5600",
+      "label": "5,600 diamantes",
+      "amount": 5600,
+      "price": 850,
+      "group": "Diamantes"
+    }
+  ]
+}

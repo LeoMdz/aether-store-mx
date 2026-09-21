@@ -1,17 +1,45 @@
-[
-  {
-    "id": "xu-1",
-    "label": "Ultimate · 1 mes",
-    "price": 270,
-    "group": "Ultimate"
-  },
-  {
-    "id": "xu-3",
-    "label": "Ultimate · 3 meses",
-    "price": 850,
-    "group": "Ultimate"
-  },
-  { "id": "xc-3", "label": "Core · 3 meses", "price": 450, "group": "Core" },
-  { "id": "xc-6", "label": "Core · 6 meses", "price": 930, "group": "Core" },
-  { "id": "xc-12", "label": "Core · 12 meses", "price": 1299, "group": "Core" }
-]
+{
+  "unidad": "meses",
+  "tasaBase": null,
+  "minimoPersonalizado": null,
+  "maximoPersonalizado": null,
+  "personalizadoHabilitado": false,
+  "paqueteBase": null,
+  "paquetesFijos": [
+    {
+      "id": "xu-1",
+      "label": "Ultimate · 1 mes",
+      "price": 270,
+      "group": "Ultimate",
+      "amount": 1
+    },
+    {
+      "id": "xu-3",
+      "label": "Ultimate · 3 meses",
+      "price": 850,
+      "group": "Ultimate",
+      "amount": 3
+    },
+    {
+      "id": "xc-3",
+      "label": "Core · 3 meses",
+      "price": 450,
+      "group": "Core",
+      "amount": 3
+    },
+    {
+      "id": "xc-6",
+      "label": "Core · 6 meses",
+      "price": 930,
+      "group": "Core",
+      "amount": 6
+    },
+    {
+      "id": "xc-12",
+      "label": "Core · 12 meses",
+      "price": 1299,
+      "group": "Core",
+      "amount": 12
+    }
+  ]
+}

@@ -45,7 +45,8 @@ import { storeConfig } from "./config";
 import { setupThemeSwitcher } from "./utils/theme-switcher";
 import { initLenis } from "./lib/lenis";
 import { observeAssets, initAnimations } from "./lib/animations";
-import { initLogoLottie } from "./lib/lottie-loader";
+import { SplashScreen } from "./components/SplashScreen";
+import { initCustomOrderBuilders } from "./components/CustomOrderBuilder";
 
 const icons = {
   Search,
@@ -77,7 +78,7 @@ const renderIcons = () =>
   });
 const data = { freefire: ff, xbox, fortnite };
 const products = themeList.flatMap((theme) =>
-  data[theme.id]
+  data[theme.id].paquetesFijos
     .filter((p) => !p.reference)
     .map((p) => ({ ...p, game: theme.id })),
 );
@@ -221,9 +222,8 @@ function openDialog(type) {
 }
 const switcher = setupThemeSwitcher();
 observeAssets();
-initAnimations();
-initLenis();
-initLogoLottie();
+initCustomOrderBuilders(themes, data);
+SplashScreen({ lenis: initLenis() }).then(() => initAnimations());
 updateCount();
 renderIcons();
 
@@ -250,13 +250,11 @@ document.addEventListener("click", async (event) => {
   if (search) {
     switcher.selectTheme(search.dataset.searchGame);
     dialog.close();
-    document
-      .querySelector("#precios")
-      .scrollIntoView({
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
-      });
+    document.querySelector("#precios").scrollIntoView({
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    });
   }
   if (event.target.closest("#copy-order")) {
     try {

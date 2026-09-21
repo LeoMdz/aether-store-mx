@@ -1,39 +1,53 @@
-[
-  {
-    "id": "fn-ref",
-    "label": "100 pavos",
-    "price": 10,
-    "group": "Referencia",
-    "reference": true
-  },
-  {
-    "id": "fn-500",
-    "label": "Emote · 500 pavos",
-    "price": 50,
-    "group": "Regalos"
-  },
-  {
-    "id": "fn-1200",
-    "label": "Skin · 1,200 pavos",
-    "price": 120,
-    "group": "Regalos"
-  },
-  {
-    "id": "fn-1500",
-    "label": "Skin · 1,500 pavos",
-    "price": 150,
-    "group": "Regalos"
-  },
-  {
-    "id": "fn-2400",
-    "label": "Lote · 2,400 pavos",
-    "price": 240,
-    "group": "Regalos"
-  },
-  {
-    "id": "fn-3800",
-    "label": "Lote · 3,800 pavos",
-    "price": 380,
-    "group": "Regalos"
-  }
-]
+{
+  "unidad": "pavos",
+  "tasaBase": 0.1,
+  "minimoPersonalizado": 100,
+  "maximoPersonalizado": 10000,
+  "personalizadoHabilitado": true,
+  "paqueteBase": "fn-3800",
+  "paquetesFijos": [
+    {
+      "id": "fn-ref",
+      "label": "100 pavos",
+      "price": 10,
+      "group": "Referencia",
+      "reference": true,
+      "amount": 100
+    },
+    {
+      "id": "fn-500",
+      "label": "Emote · 500 pavos",
+      "price": 50,
+      "group": "Regalos",
+      "amount": 500
+    },
+    {
+      "id": "fn-1200",
+      "label": "Skin · 1,200 pavos",
+      "price": 120,
+      "group": "Regalos",
+      "amount": 1200
+    },
+    {
+      "id": "fn-1500",
+      "label": "Skin · 1,500 pavos",
+      "price": 150,
+      "group": "Regalos",
+      "amount": 1500
+    },
+    {
+      "id": "fn-2400",
+      "label": "Lote · 2,400 pavos",
+      "price": 240,
+      "group": "Regalos",
+      "amount": 2400
+    },
+    {
+      "id": "fn-3800",
+      "label": "Lote · 3,800 pavos",
+      "price": 380,
+      "group": "Regalos",
+      "amount": 3800
+    }
+  ]
+}

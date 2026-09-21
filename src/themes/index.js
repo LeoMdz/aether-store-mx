@@ -15,7 +15,7 @@ export const themes = Object.fromEntries(
     {
       ...theme,
       priceFrom: Math.min(
-        ...prices[theme.id]
+        ...prices[theme.id].paquetesFijos
           .filter((product) => !product.reference)
           .map((product) => product.price),
       ),

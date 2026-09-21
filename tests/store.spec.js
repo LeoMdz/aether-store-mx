@@ -219,13 +219,13 @@ test("search, empty state, account explanation and mobile menu", async ({
   );
   await page.keyboard.press("Escape");
 });
-test("motion is viewport-bound and one-shot Lottie is destroyed", async ({
+test("motion is viewport-bound after the one-shot splash", async ({
   page,
 }) => {
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page.locator("#logo-lottie")).toHaveCount(0, { timeout: 12000 });
+  await expect(page.locator(".splash-screen")).toHaveCount(0, { timeout: 3000 });
   await page.locator("#contacto").scrollIntoViewIfNeeded();
   await expect
     .poll(() =>
