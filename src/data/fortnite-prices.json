@@ -1,0 +1,39 @@
+[
+  {
+    "id": "fn-ref",
+    "label": "100 pavos",
+    "price": 10,
+    "group": "Referencia",
+    "reference": true
+  },
+  {
+    "id": "fn-500",
+    "label": "Emote · 500 pavos",
+    "price": 50,
+    "group": "Regalos"
+  },
+  {
+    "id": "fn-1200",
+    "label": "Skin · 1,200 pavos",
+    "price": 120,
+    "group": "Regalos"
+  },
+  {
+    "id": "fn-1500",
+    "label": "Skin · 1,500 pavos",
+    "price": 150,
+    "group": "Regalos"
+  },
+  {
+    "id": "fn-2400",
+    "label": "Lote · 2,400 pavos",
+    "price": 240,
+    "group": "Regalos"
+  },
+  {
+    "id": "fn-3800",
+    "label": "Lote · 3,800 pavos",
+    "price": 380,
+    "group": "Regalos"
+  }
+]

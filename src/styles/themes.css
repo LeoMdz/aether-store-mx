@@ -1,0 +1,25 @@
+/* Theme Factory custom sets: Crimson Drop / Green Circuit / Rift Cyan.
+   Scope is always local. Header and footer never inherit game variables. */
+[data-theme="freefire"] {
+  --accent: #ff334c;
+  --secondary: #ff7283;
+  --theme-surface: #1b0c13;
+  --glow: 0 8px 36px #ff334c30;
+}
+[data-theme="xbox"] {
+  --accent: #83f750;
+  --secondary: #b4ff8d;
+  --theme-surface: #0e1a10;
+  --glow: 0 8px 36px #83f75025;
+}
+[data-theme="fortnite"] {
+  --accent: #42dfff;
+  --secondary: #9957ff;
+  --theme-surface: #0a152a;
+  --glow: 0 8px 36px #42dfff25;
+}
+[data-theme] {
+  --space-compact: 12px;
+  --space-card: 28px;
+  --space-section: 88px;
+}
