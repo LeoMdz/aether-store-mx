@@ -23,3 +23,22 @@
   --space-card: 28px;
   --space-section: 88px;
 }
+/* Local theme tokens: Vinewood Emerald and Spotify Sessions. */
+[data-theme="gta"] {
+  --accent: #38bd98;
+  --secondary: #94d8c3;
+  --theme-surface: #09251f;
+  --glow: 0 8px 36px #38bd9825;
+}
+[data-theme="spotify"] {
+  --accent: #1db954;
+  --secondary: #8bddaa;
+  --theme-surface: #0c2115;
+  --glow: 0 8px 36px #1db95425;
+  font-family: "Nunito Sans", sans-serif;
+}
+[data-theme="spotify"] h3,
+[data-theme="spotify"] h4 {
+  font-family: "Nunito Sans", sans-serif;
+  letter-spacing: -0.04em;
+}

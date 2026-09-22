@@ -1,23 +1,18 @@
 import freefire from "./freefire";
 import xbox from "./xbox";
 import fortnite from "./fortnite";
-import freefirePrices from "../data/freefire-prices.json";
-import xboxPrices from "../data/xbox-prices.json";
-import fortnitePrices from "../data/fortnite-prices.json";
-const prices = {
-  freefire: freefirePrices,
-  xbox: xboxPrices,
-  fortnite: fortnitePrices,
-};
+import gta from "./gta";
+import spotify from "./spotify";
+import { catalog } from "../data/catalog";
 export const themes = Object.fromEntries(
-  [freefire, xbox, fortnite].map((theme) => [
+  [freefire, xbox, fortnite, gta, spotify].map((theme) => [
     theme.id,
     {
       ...theme,
       priceFrom: Math.min(
-        ...prices[theme.id].paquetesFijos
-          .filter((product) => !product.reference)
-          .map((product) => product.price),
+        ...catalog[theme.id].paquetesFijos
+          .filter((p) => !p.reference)
+          .map((p) => p.price),
       ),
     },
   ]),

@@ -1,0 +1,4 @@
+import { gifts } from "../data/catalog";
+export function GiftShopGrid(theme) {
+  return `<section class="gift-shop" aria-label="Tienda de regalos ${theme.name}"><p class="service-note">Elige el tipo de regalo. Confirma el ítem exacto y su disponibilidad en tu ticket.</p><div class="gift-grid">${gifts.categorias.map((p, i) => `<article class="gift-card"><span class="gift-symbol" aria-hidden="true">${p.tipo === "Emotes" ? "♫" : p.tipo === "Skins" ? "◈" : "✦"}</span><h4>${p.tipo}</h4><p>${p.pavos.toLocaleString("es-MX")} pavos de referencia</p><strong class="price">$${p.precio} <small>MXN</small></strong><span class="gift-badge">Envío directo a tu cuenta</span>${p.nota ? `<p>${p.nota}</p>` : ""}<button class="game-button" data-quote-gift="${i}">Cotizar regalo</button></article>`).join("")}</div><div data-product-handoff hidden></div></section>`;
+}

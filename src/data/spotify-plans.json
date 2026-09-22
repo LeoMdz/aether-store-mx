@@ -1,0 +1,26 @@
+{
+  "planes": [
+    {
+      "duracion": "1 mes",
+      "precio": 90,
+      "ahorro": null
+    },
+    {
+      "duracion": "3 meses",
+      "precio": 190,
+      "ahorro": 30
+    },
+    {
+      "duracion": "6 meses",
+      "precio": 390,
+      "ahorro": 28
+    },
+    {
+      "duracion": "12 meses",
+      "precio": 650,
+      "ahorro": 40
+    }
+  ],
+  "moneda": "MXN",
+  "referenciaAhorro": "Frente a $90 MXN al mes; porcentaje redondeado."
+}

@@ -2523,3 +2523,385 @@ dialog::backdrop {
     animation: none !important;
   }
 }
+/* Extended catalog: shared components, local product views. */
+.product-content {
+  min-width: 0;
+}
+.price-tabs {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.product-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #ffffff20;
+  padding-bottom: 16px;
+}
+.product-tabs button {
+  flex: 1;
+  padding: 14px 12px;
+  border: 1px solid #ffffff24;
+  background: #0b1019;
+  color: #b8c2cb;
+  font-weight: 600;
+  min-height: 48px;
+}
+.product-tabs button[aria-selected="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--theme-surface);
+}
+.product-view[hidden] {
+  display: none;
+}
+.product-content .custom-order {
+  margin-top: 32px;
+}
+.table-title {
+  font-size: 26px;
+  margin: 24px 0 12px;
+  color: var(--accent);
+}
+.payment-note {
+  display: block;
+  color: #b5c5c0;
+  font-size: 10px;
+  font-weight: 400;
+  max-width: 220px;
+  margin-top: 6px;
+}
+.saving-badge {
+  display: inline-block;
+  border-radius: 30px;
+  background: #1db954;
+  color: #04160b;
+  font:
+    800 13px "Nunito Sans",
+    sans-serif;
+  padding: 4px 8px;
+  margin: 6px;
+  white-space: nowrap;
+}
+.delivery-warning {
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  background: var(--theme-surface);
+  color: #e7f2ed;
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.service-note {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #b7c2cf;
+  margin: 14px 0 24px;
+}
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.level-card {
+  padding: 22px 16px;
+  border: 1px solid #38bd9840;
+  background: linear-gradient(145deg, #0d2c25, #090f16);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.level-medal {
+  font-size: 36px;
+}
+.level-card h4 {
+  font-size: 29px;
+}
+.level-card .price {
+  font-size: 28px;
+}
+.level-card ul {
+  padding-left: 18px;
+  color: #c5d5ce;
+  font-size: 13px;
+  line-height: 1.9;
+  flex: 1;
+}
+.warranty-option {
+  font-size: 12px;
+  line-height: 1.6;
+  min-height: 48px;
+}
+.warranty-option input {
+  accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+.level-card .game-button {
+  font-size: 13px;
+  padding: 12px 8px;
+  justify-content: center;
+}
+.gift-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.gift-card {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 22px 16px;
+  border: 1px solid #42dfff40;
+  background:
+    radial-gradient(at top right, #9957ff25, transparent 70%), #0a152a;
+}
+.gift-symbol {
+  font-size: 36px;
+  color: var(--accent);
+}
+.gift-card h4 {
+  font-size: 30px;
+}
+.gift-card p {
+  font-size: 12px;
+  color: #bdc8da;
+  line-height: 1.6;
+}
+.gift-card .price {
+  font-size: 27px;
+}
+.gift-badge {
+  color: #9cefff;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.gift-card .game-button {
+  margin-top: auto;
+  font-size: 12px;
+  padding: 12px 8px;
+  justify-content: center;
+}
+.gift-shop .custom-handoff {
+  margin-top: 24px;
+}
+.payment-label {
+  display: block;
+  font-size: 13px;
+  margin: 20px 0;
+}
+.payment-label select {
+  display: block;
+  max-width: 100%;
+  background: #111b22;
+  border: 1px solid #ffffff35;
+  color: #fff;
+  padding: 12px;
+  margin-top: 8px;
+}
+.reviews-section {
+  padding-block: 60px 70px;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #a6b0bd;
+  margin-bottom: 14px;
+}
+.review-arrows {
+  display: flex;
+  gap: 10px;
+}
+.review-arrows button {
+  font-size: 24px;
+  min-width: 50px;
+}
+.review-track {
+  position: relative;
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: #6e7785 #111821;
+  padding-bottom: 18px;
+}
+.review-slide {
+  margin: 0;
+  flex: 0 0 64%;
+  min-width: 0;
+  scroll-snap-align: start;
+  background: #11151b;
+  border: 1px solid #ffffff16;
+  padding: 16px;
+}
+.review-slide img {
+  width: 100%;
+  height: 510px;
+  object-fit: contain;
+  display: block;
+}
+.review-slide figcaption {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #aab1bd;
+  padding-top: 16px;
+}
+.review-track::after {
+  content: "";
+  flex: 0 0 calc(36% - 24px);
+}
+.review-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+  font-size: 11px;
+  color: #aab1bd;
+}
+.review-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.review-dots button {
+  width: 28px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+}
+.review-dots span {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #626b78;
+}
+.review-dots [aria-current="true"] span {
+  background: #fff;
+  width: 16px;
+  border-radius: 4px;
+}
+@media (min-width: 1000px) {
+  .game-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .game-card {
+    grid-column: span 2;
+  }
+  .game-card:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+  .site-header nav {
+    gap: 16px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 1100px) {
+  .price-tabs button {
+    padding: 18px 8px;
+    font-size: 14px;
+  }
+  .price-tabs button span {
+    font-size: 10px;
+  }
+  .level-grid {
+    grid-template-columns: 1fr;
+  }
+  .level-card ul {
+    columns: 2;
+  }
+}
+@media (max-width: 767px) {
+  .price-tabs {
+    display: flex;
+    overflow-x: auto;
+  }
+  .price-tabs button {
+    flex: 0 0 130px;
+  }
+  .product-content {
+    width: 100%;
+  }
+  .product-tabs {
+    gap: 6px;
+  }
+  .product-tabs button {
+    font-size: 12px;
+    padding: 12px 6px;
+  }
+  .gift-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .gift-card {
+    padding: 16px 10px;
+  }
+  .gift-card h4 {
+    font-size: 25px;
+  }
+  .gift-card .price {
+    font-size: 25px;
+  }
+  .gift-card .game-button {
+    font-size: 11px;
+  }
+  .gift-badge {
+    font-size: 10px;
+  }
+  .review-slide {
+    flex-basis: 90%;
+    padding: 8px;
+  }
+  .review-slide img {
+    height: 420px;
+  }
+  .review-track {
+    gap: 12px;
+  }
+  .review-track::after {
+    flex-basis: calc(10% - 12px);
+  }
+  .review-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .review-controls > span {
+    display: none;
+  }
+  .review-dots {
+    max-width: 100%;
+  }
+  .review-dots button {
+    width: 32px;
+  }
+  .reviews-section {
+    padding-block: 32px 48px;
+  }
+  .level-card ul {
+    columns: 1;
+  }
+  .saving-badge {
+    margin: 5px 0;
+  }
+  .payment-note {
+    max-width: 140px;
+  }
+  .product-content .custom-quantity-row {
+    flex-wrap: wrap;
+  }
+}
+.gift-card .game-button,
+.level-card .game-button {
+  min-width: 0;
+  width: 100%;
+  white-space: normal;
+}
+.price-panel {
+  scroll-margin-top: 110px;
+}
+.game-card[data-theme="spotify"] .card-art img,
+.game-card[data-theme="gta"] .card-art img {
+  object-position: top;
+}

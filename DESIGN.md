@@ -17,3 +17,5 @@ Base global #080B12, superficie #10151F, texto #F3F5FA, texto secundario #A5ACBA
 Header y footer neutros; logo oficial presentado en escala de grises en esas superficies. Precios siempre amarillos. GameCard y PriceTable se reutilizan para los tres juegos, con datos JSON externos. Sin carrusel.
 
 Accesibilidad: navegación por teclado, tabs con flechas/Home/End, foco visible, tamaños táctiles de 44px, diálogos nativos, reduced-motion y contenido utilizable sin animación.
+
+Vinewood Emerald: acento #38bd98, secundario #94d8c3, superficie #09251f; composición urbana de Los Santos. Spotify Sessions: acento oficial #1DB954, secundario #8bddaa, superficie #0c2115; Nunito Sans local, discos y ondas. Ambos mantienen espaciado 12/28/88 y precio amarillo #FFE66A. Reseñas y shell conservan tonos neutros. Los badges Spotify reflejan la referencia mensual confirmada por el propietario, no los porcentajes del póster.

@@ -1,0 +1,88 @@
+{
+  "unidad": "millones GTA$",
+  "tasaBase": 1.2338308457711442,
+  "modoTarifa": "paquete-cercano",
+  "minimoPersonalizado": 3,
+  "maximoPersonalizado": 201,
+  "personalizadoHabilitado": true,
+  "nota": "30 millones diarios máximo, resto pendiente 24h+",
+  "paquetesFijos": [
+    {
+      "id": "gta-3",
+      "label": "3 millones GTA$",
+      "amount": 3,
+      "price": 8,
+      "group": "Básicos"
+    },
+    {
+      "id": "gta-6",
+      "label": "6 millones GTA$",
+      "amount": 6,
+      "price": 14,
+      "group": "Básicos"
+    },
+    {
+      "id": "gta-12",
+      "label": "12 millones GTA$",
+      "amount": 12,
+      "price": 26,
+      "group": "Básicos"
+    },
+    {
+      "id": "gta-18",
+      "label": "18 millones GTA$",
+      "amount": 18,
+      "price": 36,
+      "group": "Básicos"
+    },
+    {
+      "id": "gta-21",
+      "label": "21 millones GTA$",
+      "amount": 21,
+      "price": 40,
+      "group": "Básicos"
+    },
+    {
+      "id": "gta-30",
+      "label": "30 millones GTA$",
+      "amount": 30,
+      "price": 48,
+      "group": "Grandes"
+    },
+    {
+      "id": "gta-51",
+      "label": "51 millones GTA$",
+      "amount": 51,
+      "price": 66,
+      "group": "Grandes"
+    },
+    {
+      "id": "gta-75",
+      "label": "75 millones GTA$",
+      "amount": 75,
+      "price": 88,
+      "group": "Grandes"
+    },
+    {
+      "id": "gta-102",
+      "label": "102 millones GTA$",
+      "amount": 102,
+      "price": 132,
+      "group": "Grandes"
+    },
+    {
+      "id": "gta-120",
+      "label": "120 millones GTA$",
+      "amount": 120,
+      "price": 146,
+      "group": "Grandes"
+    },
+    {
+      "id": "gta-201",
+      "label": "201 millones GTA$",
+      "amount": 201,
+      "price": 248,
+      "group": "Grandes"
+    }
+  ]
+}

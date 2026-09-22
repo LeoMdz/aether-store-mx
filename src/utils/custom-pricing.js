@@ -1,3 +1,12 @@
+export function customRate(quantity, pricing) {
+  if (pricing.modoTarifa !== "paquete-cercano") return pricing.tasaBase;
+  const nearest = [...pricing.paquetesFijos].sort(
+    (a, b) =>
+      Math.abs(a.amount - quantity) - Math.abs(b.amount - quantity) ||
+      a.amount - b.amount,
+  )[0];
+  return nearest.price / nearest.amount;
+}
 export const formatPesos = (value) =>
   new Intl.NumberFormat("es-MX", { maximumFractionDigits: 0 }).format(value);
 
@@ -10,7 +19,7 @@ export function quoteCustomOrder(quantity, pricing) {
     pricing.tasaBase > 0;
   if (!valid) return null;
   // Absorb floating-point noise at exact half-peso boundaries; do not round the rate.
-  return Math.round(quantity * pricing.tasaBase + 1e-9);
+  return Math.round(quantity * customRate(quantity, pricing) + 1e-9);
 }
 
 export function findBetterPackage(quantity, total, packages) {

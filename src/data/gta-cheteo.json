@@ -1,0 +1,53 @@
+{
+  "plataforma": "PC Enhanced",
+  "nota": "Son 30 millones diarios, lo demás queda pendiente 24h o más",
+  "metodosPago": ["PayPal", "Throne", "Transferencia/Depósito (solo México)"],
+  "planes": [
+    {
+      "id": "gta-nivel-1",
+      "nombre": "Nivel 1",
+      "precio": 150,
+      "garantia": 60,
+      "caracteristicas": [
+        "Nivel 1–150",
+        "15M GTA$",
+        "5 propiedades",
+        "5 vehículos",
+        "1 outfit",
+        "Estadísticas al máximo"
+      ]
+    },
+    {
+      "id": "gta-nivel-2",
+      "nombre": "Nivel 2",
+      "precio": 200,
+      "garantia": 50,
+      "caracteristicas": [
+        "Nivel 1–300",
+        "24M GTA$",
+        "10 propiedades",
+        "10 vehículos",
+        "3 outfits",
+        "Fast Run incluido",
+        "Estadísticas al máximo"
+      ]
+    },
+    {
+      "id": "gta-nivel-3",
+      "nombre": "Nivel 3",
+      "precio": 300,
+      "garantia": 0,
+      "caracteristicas": [
+        "Nivel 1–500",
+        "30M GTA$",
+        "19 propiedades",
+        "15 vehículos",
+        "5 outfits",
+        "Fast Run incluido",
+        "Búnker desbloqueado",
+        "Estadísticas al máximo",
+        "Garantía incluida gratis"
+      ]
+    }
+  ]
+}

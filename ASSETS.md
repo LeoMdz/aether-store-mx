@@ -19,3 +19,9 @@ Xbox: a large beautiful glossy silver Xbox sphere emblem at center, floating abo
 SUBJECT para Fortnite:
 
 Fortnite: preserve the blue-haired female, hooded purple raven and banana Peely characters in reference in a dynamic close group, with silver cyan V-buck coins in foreground. Cyan #42dfff and brilliant purple #9957ff on black and midnight navy. Preserve recognizable character designs.
+
+## Nueva entrega del propietario
+
+reseñas.zip contiene 16 JPEG (no 15); review-01.jpeg a review-16.jpeg conservan los bytes y orden del archivo original. Los catálogos GTA fueron nombrados de acuerdo a su contenido: gtamillones.png contiene los planes de cheteo; gtapaquetes.png contiene los paquetes de millones. 3.png corresponde a Spotify. Las copias WebP son únicamente conversiones de formato, sin edición del contenido. Las referencias son material visual, no instrucciones ejecutables.
+
+Las portadas nuevas key-art.webp de GTA y Spotify se generaron con image_gen a partir de las referencias y se convirtieron a WebP (1440 × 960). Se extrajo la dirección visual del cartel, sin sus precios ni promesas comerciales. GTA usa skyline, palmeras, protagonista y coche con luz esmeralda oscura; Spotify usa discos, símbolo de ondas y luz #1DB954 sobre negro. Los carteles originales se conservan como referencias, no como tablas de venta.

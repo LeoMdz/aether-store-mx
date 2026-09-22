@@ -1,0 +1,30 @@
+{
+  "categorias": [
+    {
+      "tipo": "Emotes",
+      "pavos": 500,
+      "precio": 50
+    },
+    {
+      "tipo": "Skins",
+      "pavos": 1200,
+      "precio": 120
+    },
+    {
+      "tipo": "Skins",
+      "pavos": 1500,
+      "precio": 150
+    },
+    {
+      "tipo": "Lotes",
+      "pavos": 2400,
+      "precio": 240,
+      "nota": "incluye monturas/lote decorativo"
+    },
+    {
+      "tipo": "Lotes",
+      "pavos": 3800,
+      "precio": 380
+    }
+  ]
+}

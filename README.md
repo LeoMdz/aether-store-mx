@@ -18,10 +18,20 @@ Las pruebas cubren escritorio, tablet y móvil, precios, tabs/teclado, carrito, 
 
 La bienvenida usa el logo original con Anime.js, una vez por sesión de pestaña (`sessionStorage`). Dura unos 2.15 segundos, con un límite independiente de 2.4 segundos y opción de saltar desde el primer segundo. Lenis se detiene y el contenido queda inerte mientras está visible. Con movimiento reducido se muestra un logo estático durante 600 ms. El antiguo loader Lottie queda disponible como recurso, pero no se inicia ni descarga en el flujo actual.
 
-`CustomOrderBuilder` comparte el tema de cada pestaña. Los JSON contienen `unidad`, `tasaBase`, límites y `paquetesFijos`. Free Fire usa $850 / 5,600 diamantes (rango 50–10,000); Fortnite usa $380 / 3,800 pavos (rango 100–10,000). El total se redondea a pesos, sin redondear primero la tasa. Fortnite sigue siendo una cotización de regalos según su valor en pavos. Xbox conserva únicamente paquetes fijos por decisión del propietario: personalización deshabilitada y tasa/límites no aplicables (`null`).
+`CustomOrderBuilder` comparte el tema de cada pestaña. Los JSON contienen `unidad`, `tasaBase`, límites y `paquetesFijos`. Free Fire usa $850 / 5,600 diamantes (rango 50–10,000); Fortnite usa $380 / 3,800 pavos (rango 100–10,000). El total se redondea a pesos, sin redondear primero la tasa. Fortnite separa las cotizaciones personalizadas de pavos de los productos fijos de la tienda de regalos. Xbox conserva únicamente paquetes fijos por decisión del propietario: personalización deshabilitada y tasa/límites no aplicables (`null`).
 
 La cotización genera y copia un resumen con juego, cantidad exacta e importe; después el usuario abre Discord y lo pega en su ticket. Si falla el portapapeles, el resumen queda seleccionado para copiarlo manualmente. No se usa WhatsApp ni se crea un ticket automáticamente. Si un paquete fijo proporciona la misma cantidad o más por un precio igual o menor, se recomienda con una opción para agregarlo al carrito.
 
 ## Recursos
 
 Referencias y logos proporcionados por el propietario. Arte de portada derivado de esas referencias con la herramienta integrada de generación de imágenes, para eliminar textos de los carteles y adaptar las paletas. La tipografía se aloja localmente. La tienda es independiente de los titulares de las marcas.
+
+## Categorías y reseñas
+
+Cinco temas locales: Free Fire, Xbox, Fortnite, GTA Online y Spotify. GameCard y PriceTable siguen siendo componentes únicos. Las pestañas internas de Fortnite y GTA no afectan las pestañas de categorías. GiftShopGrid prepara el resumen del regalo y ProductViews gestiona los selectores y las garantías de GTA.
+
+GTA tiene dos fuentes: gta-cheteo.json (tres planes PC Enhanced y garantías opcionales) y gta-millones.json (tablas Básicos/Grandes). El rango personalizado es 3–201 millones enteros, limitado al catálogo publicado. La tarifa es precio/cantidad del paquete más cercano por distancia absoluta; en empate se usa el paquete menor. No se interpola ni se impone una tasa lineal. Throne se ofrece solo por encima de 12 millones. La entrega de 30 millones diarios y resto 24h+ se muestra antes de comprar y se incluye en los resúmenes.
+
+Spotify usa los cuatro precios proporcionados. Por confirmación del propietario, el ahorro se compara con $90 al mes: 30%, 28% y 40%, redondeado. Los porcentajes del cartel original no se usan en las tablas de venta. No se atribuyen estos planes a Individual, Duo o Family sin datos confirmados.
+
+ReviewsCarousel conserva las 16 imágenes originales del ZIP. Avance manual mediante scroll-snap, gesto táctil, flechas, teclado y puntos; Anime.js anima scrollLeft. Sin avance automático que interrumpa la lectura. Solo se asigna src a la reseña visible y sus vecinas cuando la sección entra al viewport, además de loading=lazy. Las capturas no se recrean ni se recortan.

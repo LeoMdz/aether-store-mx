@@ -1,3 +1,11 @@
+import "@fontsource/nunito-sans/latin-400.css";
+import "@fontsource/nunito-sans/latin-800.css";
+import { catalog } from "./data/catalog";
+import {
+  ReviewsCarousel,
+  initReviewsCarousel,
+} from "./components/ReviewsCarousel";
+import { initProductViews } from "./components/ProductViews";
 import "@fontsource/barlow-condensed/latin-700.css";
 import "@fontsource/barlow-condensed/latin-800.css";
 import "@fontsource/chakra-petch/latin-400.css";
@@ -16,6 +24,7 @@ import {
   Menu,
   Gem,
   Gamepad2,
+  Disc3,
   CircleDollarSign,
   ArrowUpRight,
   ArrowRight,
@@ -38,9 +47,6 @@ import { GameCard } from "./components/GameCard";
 import { PriceTable, money } from "./components/PriceTable";
 import { TrustBar } from "./components/TrustBar";
 import { themeList, themes } from "./themes";
-import ff from "./data/freefire-prices.json";
-import xbox from "./data/xbox-prices.json";
-import fortnite from "./data/fortnite-prices.json";
 import { storeConfig } from "./config";
 import { setupThemeSwitcher } from "./utils/theme-switcher";
 import { initLenis } from "./lib/lenis";
@@ -55,6 +61,7 @@ const icons = {
   Menu,
   Gem,
   Gamepad2,
+  Disc3,
   CircleDollarSign,
   ArrowUpRight,
   ArrowRight,
@@ -76,7 +83,7 @@ const renderIcons = () =>
     icons,
     attrs: { "stroke-width": 1.65, "aria-hidden": "true" },
   });
-const data = { freefire: ff, xbox, fortnite };
+const data = catalog;
 const products = themeList.flatMap((theme) =>
   data[theme.id].paquetesFijos
     .filter((p) => !p.reference)
@@ -101,13 +108,13 @@ try {
   /* Unavailable storage or corrupted content should not block shopping. */
 }
 
-document.querySelector("#app").innerHTML =
-  `${Header()}<main>${Hero()}${TrustBar()}
- <section class="catalog-section container" id="catalogo" aria-labelledby="catalog-title"><div class="section-heading" data-reveal><div><h2 id="catalog-title">ELIGE TU <span>UNIVERSO.</span></h2><p id="catalog-count">3 universos. Infinitas posibilidades.</p></div><div class="filters" role="group" aria-label="Filtrar catálogo"><button data-filter="all" aria-pressed="true">Todos</button>${themeList.map((t) => `<button data-filter="${t.id}" aria-pressed="false">${t.name}</button>`).join("")}</div></div><div class="game-grid">${themeList.map(GameCard).join("")}</div></section>
+document.querySelector("#app").innerHTML = `${Header()}<main>${Hero()}
+ <section class="catalog-section container" id="catalogo" aria-labelledby="catalog-title"><div class="section-heading" data-reveal><div><h2 id="catalog-title">ELIGE TU <span>UNIVERSO.</span></h2><p id="catalog-count">5 universos. Infinitas posibilidades.</p></div><div class="filters" role="group" aria-label="Filtrar catálogo"><button data-filter="all" aria-pressed="true">Todos</button>${themeList.map((t) => `<button data-filter="${t.id}" aria-pressed="false">${t.name}</button>`).join("")}</div></div><div class="game-grid">${themeList.map(GameCard).join("")}</div></section>
+ ${ReviewsCarousel()}${TrustBar()}
  <section class="pricing-section container" id="precios" aria-labelledby="pricing-title"><div class="section-heading" data-reveal><div><h2 id="pricing-title">TU PRÓXIMO <span>POWER-UP.</span></h2><p>El paquete perfecto. El precio claro. Todo en MXN.</p></div><span class="pricing-caption"><i data-lucide="shield-check"></i> SIN COMPLICACIONES</span></div><div class="pricing-box"><div class="price-tabs" role="tablist" aria-label="Precios por juego">${themeList.map((t, i) => `<button id="tab-${t.id}" role="tab" data-tab="${t.id}" data-theme="${t.id}" aria-selected="${i === 0}" aria-controls="panel-${t.id}" tabindex="${i === 0 ? 0 : -1}"><i data-lucide="${t.icon}"></i>${t.name}<span>${t.unit}</span></button>`).join("")}</div>${themeList.map((t, i) => PriceTable(t, data[t.id], i === 0)).join("")}</div></section>
  <section class="how-section container" aria-labelledby="how-title"><h2 id="how-title">DEL CATÁLOGO<br><span>A LA PARTIDA.</span></h2><ol><li><span>01</span><h3>Elige tu power-up</h3><p>Agrega tus productos al carrito y copia el resumen.</p></li><li><span>02</span><h3>Abre tu ticket</h3><p>Entra a nuestro Discord y comparte tu pedido en un ticket.</p></li><li><span>03</span><h3>Listo. A jugar.</h3><p>Confirma disponibilidad y pago con el equipo. Nosotros te guiamos.</p></li></ol></section>
  <section class="contact-section container" id="contacto" aria-labelledby="contact-title"><div class="contact-symbol"><i data-lucide="message-circle"></i></div><div><h2 id="contact-title">TU SQUAD TAMBIÉN ESTÁ AQUÍ.</h2><p>¿Dudas o listo para comprar? Te esperamos en Discord.</p></div><a class="neutral-button" href="${storeConfig.discordUrl}" target="_blank" rel="noopener noreferrer">Entrar al servidor <i data-lucide="arrow-up-right"></i></a></section>
- </main><footer class="site-footer"><div class="container footer-top"><a class="brand" href="#inicio"><span class="brand-mark"><img src="/assets/images/logo.webp" alt="" width="58" height="58"></span><span>AETHER<span class="brand-sub">STORE <b>MX</b></span></span></a><p>TU TIENDA GAMER. TU SIGUIENTE NIVEL.</p><a href="${storeConfig.discordUrl}" target="_blank" rel="noopener noreferrer">Hablemos en Discord <i data-lucide="arrow-up-right"></i></a></div><div class="container footer-bottom"><span>© ${new Date().getFullYear()} Aether Store MX</span><p>Tienda independiente. Free Fire, Xbox y Fortnite pertenecen a sus respectivas marcas.</p><span>HECHO PARA JUGAR.</span></div></footer>
+ </main><footer class="site-footer"><div class="container footer-top"><a class="brand" href="#inicio"><span class="brand-mark"><img src="/assets/images/logo.webp" alt="" width="58" height="58"></span><span>AETHER<span class="brand-sub">STORE <b>MX</b></span></span></a><p>TU TIENDA GAMER. TU SIGUIENTE NIVEL.</p><a href="${storeConfig.discordUrl}" target="_blank" rel="noopener noreferrer">Hablemos en Discord <i data-lucide="arrow-up-right"></i></a></div><div class="container footer-bottom"><span>© ${new Date().getFullYear()} Aether Store MX</span><p>Tienda independiente. Free Fire, Xbox, Fortnite, GTA Online y Spotify pertenecen a sus respectivas marcas.</p><span>HECHO PARA JUGAR.</span></div></footer>
  <dialog id="store-dialog" aria-labelledby="dialog-title" data-lenis-prevent><div class="dialog-header"><h2 id="dialog-title"></h2><button class="icon-button" aria-label="Cerrar ventana" data-close><i data-lucide="x"></i></button></div><div id="dialog-body"></div></dialog><div id="toast" role="status" aria-live="polite"></div>`;
 
 const dialog = document.querySelector("#store-dialog");
@@ -158,7 +165,7 @@ function orderText() {
   return `PEDIDO · AETHER STORE MX\n\n${cart
     .map((item) => {
       const p = findProduct(item.id);
-      return `${item.quantity} × ${themes[p.game].name} — ${p.label}: $${money(p.price * item.quantity)} MXN`;
+      return `${item.quantity} × ${themes[p.game].name} — ${p.label}: $${money(p.price * item.quantity)} MXN${p.game === "gta" ? " (PC Enhanced; entrega: 30 millones diarios máximo, resto 24h+; PayPal / Transferencia México" + (p.amount > 12 ? " / Throne" : "") + ")" : ""}`;
     })
     .join(
       "\n",
@@ -315,3 +322,6 @@ window.addEventListener("storage", (event) => {
     } catch {}
   }
 });
+
+initReviewsCarousel();
+initProductViews();

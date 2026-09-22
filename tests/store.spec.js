@@ -24,7 +24,9 @@ for (const [name, width, height] of [
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "POTENCIA",
     );
-    await expect(page.locator(".game-card")).toHaveCount(3);
+    await expect(page.locator(".game-card")).toHaveCount(5);
+    for (const card of await page.locator(".game-card").all())
+      await card.scrollIntoViewIfNeeded();
     for (const section of ["#catalogo", "#precios", "#contacto"])
       await page.locator(section).scrollIntoViewIfNeeded();
     await expect
@@ -80,9 +82,13 @@ test("all prices and tabs, keyboard navigation and global neutral identity", asy
     await page.locator(`#tab-${id}`).click();
     const panel = page.locator(`#panel-${id}`);
     await expect(panel).toBeVisible();
-    expect(await panel.locator("td.price").allTextContents()).toEqual(
-      prices.map((p) => `$${p.toLocaleString("en-US")} MXN`),
-    );
+    if (id === "fortnite")
+      await panel.getByRole("tab", { name: "Regalos de la Tienda" }).click();
+    expect(
+      await panel
+        .locator(id === "fortnite" ? ".gift-card .price" : "td.price")
+        .allTextContents(),
+    ).toEqual(prices.map((p) => `$${p.toLocaleString("en-US")} MXN`));
     expect(
       await panel.evaluate((el) =>
         getComputedStyle(el).getPropertyValue("--accent").trim(),
@@ -93,24 +99,20 @@ test("all prices and tabs, keyboard navigation and global neutral identity", asy
       .evaluateAll((els) => els.map((el) => getComputedStyle(el).color)))
       expect(color).toBe("rgb(255, 230, 106)");
     expect(
-      await page
-        .locator(".site-header,.site-footer")
-        .evaluateAll((els) =>
-          els.map((el) => ({
-            background: getComputedStyle(el).backgroundColor,
-            accent: getComputedStyle(el).getPropertyValue("--accent"),
-          })),
-        ),
+      await page.locator(".site-header,.site-footer").evaluateAll((els) =>
+        els.map((el) => ({
+          background: getComputedStyle(el).backgroundColor,
+          accent: getComputedStyle(el).getPropertyValue("--accent"),
+        })),
+      ),
     ).toEqual(initial);
   }
-  await expect(page.locator("#panel-fortnite")).toContainText(
-    "100 pavos = $10 MXN",
-  );
+
   await page.locator("#tab-fortnite").press("ArrowRight");
-  await expect(page.locator("#tab-freefire")).toBeFocused();
-  await expect(page.locator("#panel-freefire")).toBeVisible();
-  await page.locator("#tab-freefire").press("End");
-  await expect(page.locator("#tab-fortnite")).toBeFocused();
+  await expect(page.locator("#tab-gta")).toBeFocused();
+  await expect(page.locator("#panel-gta")).toBeVisible();
+  await page.locator("#tab-gta").press("End");
+  await expect(page.locator("#tab-spotify")).toBeFocused();
 });
 test("filtered entry loads only requested assets until needed", async ({
   page,
@@ -136,7 +138,7 @@ test("filtered entry loads only requested assets until needed", async ({
     requested.some((url) => url.includes("/images/fortnite/")),
   ).toBeFalsy();
   await page.getByRole("button", { name: "Todos", exact: true }).click();
-  await expect(page.locator(".game-card:visible")).toHaveCount(3);
+  await expect(page.locator(".game-card:visible")).toHaveCount(5);
   await expect(
     page.locator(".game-card[data-game=fortnite] img"),
   ).toHaveAttribute("src", /fortnite/);
@@ -219,13 +221,13 @@ test("search, empty state, account explanation and mobile menu", async ({
   );
   await page.keyboard.press("Escape");
 });
-test("motion is viewport-bound after the one-shot splash", async ({
-  page,
-}) => {
+test("motion is viewport-bound after the one-shot splash", async ({ page }) => {
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page.locator(".splash-screen")).toHaveCount(0, { timeout: 3000 });
+  await expect(page.locator(".splash-screen")).toHaveCount(0, {
+    timeout: 3000,
+  });
   await page.locator("#contacto").scrollIntoViewIfNeeded();
   await expect
     .poll(() =>

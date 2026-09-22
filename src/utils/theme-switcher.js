@@ -1,7 +1,7 @@
 import { themes } from "../themes";
 export function setupThemeSwitcher(onFilter = () => {}) {
   const filterButtons = [...document.querySelectorAll("[data-filter]")];
-  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const tabs = [...document.querySelectorAll("[data-tab]")];
   function selectTheme(id, focus = false) {
     if (!themes[id]) return;
     tabs.forEach((tab) => {
@@ -10,7 +10,7 @@ export function setupThemeSwitcher(onFilter = () => {}) {
       tab.tabIndex = active ? 0 : -1;
     });
     document
-      .querySelectorAll('[role="tabpanel"]')
+      .querySelectorAll(".price-panel")
       .forEach((panel) => (panel.hidden = panel.id !== `panel-${id}`));
     if (focus) document.querySelector(`#tab-${id}`).focus();
   }
@@ -18,7 +18,13 @@ export function setupThemeSwitcher(onFilter = () => {}) {
     if (id !== "all" && !themes[id]) id = "all";
     document
       .querySelectorAll("[data-game]")
-      .forEach((el) => (el.hidden = id !== "all" && el.dataset.game !== id));
+      .forEach(
+        (el) =>
+          (el.hidden =
+            id === "all"
+              ? el.hasAttribute("data-hero-extra")
+              : el.dataset.game !== id),
+      );
     document
       .querySelector(".hero")
       .classList.toggle("is-filtered", id !== "all");
@@ -27,7 +33,7 @@ export function setupThemeSwitcher(onFilter = () => {}) {
     );
     document.querySelector("#catalog-count").textContent =
       id === "all"
-        ? "3 universos. Infinitas posibilidades."
+        ? "5 universos. Infinitas posibilidades."
         : `Tu universo ${themes[id].name}.`;
     if (id !== "all") selectTheme(id);
     if (updateUrl) {
