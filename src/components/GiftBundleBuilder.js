@@ -1,5 +1,4 @@
 import { gifts } from "../data/catalog";
-import { storeConfig } from "../config";
 import { CustomOrderBuilder, createOrderTotal } from "./CustomOrderBuilder";
 
 const format = (value) => value.toLocaleString("es-MX");
@@ -22,6 +21,10 @@ export function initGiftBundleBuilders() {
     const baseSelect = root.querySelector("[data-bundle-base]");
     const items = root.querySelector("[data-bundle-items]");
     const order = root.querySelector("[data-bundle-order]");
+    const handoff = root.querySelector("[data-bundle-handoff]");
+    const summary = root.querySelector("[data-bundle-message]");
+    const status = root.querySelector("[data-bundle-status]");
+    let revision = 0;
     const price = createOrderTotal(root);
     const selected = [];
     let nextId = 0;
@@ -30,20 +33,36 @@ export function initGiftBundleBuilders() {
       const total = base.precio + selected.reduce((sum, { extra }) => sum + extra.precio, 0);
       items.innerHTML = `<li><span>Base · ${format(base.pavos)} pavos</span><strong>$${format(base.precio)} MXN</strong></li>${selected.map(({ id, extra }) => `<li><span>${extraLabel(extra)}</span><strong>$${format(extra.precio)} MXN</strong><button type="button" class="outline-button" data-bundle-remove="${id}" aria-label="Quitar ${extraLabel(extra)}">Quitar</button></li>`).join("")}`;
       const message = [
-        "Hola, quiero armar mi lote de Fortnite en Aether Store MX.",
+        "Hola, quiero cotizar este lote personalizado de Fortnite en Aether Store MX.",
         `Pavos base: ${format(base.pavos)} pavos · $${format(base.precio)} MXN`,
         ...selected.map(({ extra }) => `Extra: ${extraLabel(extra)} · $${format(extra.precio)} MXN`),
         `Total: $${format(total)} MXN`,
         "¿Me confirman los regalos, disponibilidad y forma de pago?",
       ].join("\n");
       // Checkout always uses the exact total, independently of the animation.
-      const url = new URL(`https://wa.me/${storeConfig.whatsappNumber}`);
-      url.searchParams.set("text", message);
-      order.href = url.href;
+      summary.value = message;
+      revision++;
+      handoff.hidden = true;
+      status.textContent = "";
       price.update(total, animate);
     };
     const onChange = () => update();
-    const onClick = (event) => {
+    const onClick = async (event) => {
+      if (event.target.closest("[data-bundle-order]")) {
+        handoff.hidden = false;
+        const currentRevision = revision;
+        try {
+          await navigator.clipboard.writeText(summary.value);
+          if (currentRevision !== revision) return;
+          status.textContent = "Lote copiado. Abre Discord y pégalo en tu ticket.";
+        } catch {
+          if (currentRevision !== revision) return;
+          status.textContent = "Copia este resumen y pégalo en tu ticket de Discord.";
+          summary.focus();
+          summary.select();
+        }
+        handoff.scrollIntoView({ block: "nearest", behavior: "instant" });
+      }
       const add = event.target.closest("[data-bundle-add]");
       const remove = event.target.closest("[data-bundle-remove]");
       if (add) {

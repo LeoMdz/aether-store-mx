@@ -20,7 +20,7 @@ La bienvenida usa el logo original con Anime.js, una vez por sesión de pestaña
 
 Fortnite usa cuatro paquetes fijos: 800/$125, 2,400/$290, 4,500/$490 y 12,500/$1,150 MXN. Crew se ofrece aparte por $135/mes con el badge de ahorro del 45%. Free Fire, Xbox, GTA y Spotify conservan paquetes fijos.
 
-`GiftBundleBuilder` es el único armador personalizado: una base fija y cero o más extras, incluidos extras repetidos. Reutiliza `CustomOrderBuilder` para el resumen y la animación del total con Anime.js, respetando movimiento reducido. El enlace de WhatsApp contiene la base, cada extra y el total exacto incluso mientras se anima el número. Configura `VITE_WHATSAPP_NUMBER` con el número internacional del negocio; sin número, WhatsApp permite elegir el destinatario. Consulta `.env.example`. El carrito y los planes GTA mantienen su flujo de Discord.
+`GiftBundleBuilder` es el único armador personalizado: una base fija y cero o más extras, incluidos extras repetidos. Reutiliza `CustomOrderBuilder` para el resumen y la animación del total con Anime.js, respetando movimiento reducido. El botón «Cotizar mi lote» copia la base, cada extra y el total exacto y muestra el acceso al servidor para abrir un ticket de Discord. Si falla el portapapeles, el resumen queda seleccionado para copiarlo manualmente. Todos los pedidos se finalizan en Discord.
 
 ## Recursos
 

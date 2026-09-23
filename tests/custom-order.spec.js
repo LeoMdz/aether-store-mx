@@ -13,7 +13,7 @@ async function openBundle(page) {
   await page.getByRole("tab", { name: "Tienda de Regalos" }).click();
   return page.locator("[data-gift-bundle]");
 }
-const message = async (builder) => new URL(await builder.locator('[data-bundle-order]').getAttribute('href')).searchParams.get('text');
+const message = async (builder) => builder.locator("[data-bundle-message]").inputValue();
 
 test("fixed catalogs and Crew replace all free-quantity controls", async ({ page }) => {
   expect(prices.paquetes.map(p => [p.pavos,p.precio])).toEqual(fixed);
@@ -40,7 +40,7 @@ test("fixed catalogs and Crew replace all free-quantity controls", async ({ page
   await expect(page.locator('.cart-total')).toContainText('$260');
 });
 
-test("base plus two extras, removal, duplicates and WhatsApp handoff", async ({ page, context }) => {
+test("base plus two extras, removal, duplicates and Discord ticket handoff", async ({ page, context }) => {
   const builder = await openBundle(page);
   await builder.getByRole('combobox').selectOption('1');
   await builder.locator('[data-bundle-add="0"]').click();
@@ -51,17 +51,16 @@ test("base plus two extras, removal, duplicates and WhatsApp handoff", async ({ 
   expect(await message(builder)).toContain('Extra: Emote · 500 pavos · $50 MXN');
   expect(await message(builder)).toContain('Extra: Skin · 1,500 pavos · $150 MXN');
   expect(await message(builder)).toContain('Total: $490 MXN');
-  // Intercept the external navigation; no message is sent during testing.
-  await context.route('https://wa.me/**', route => route.fulfill({body:'WhatsApp handoff verified'}));
-  const popupPromise = page.waitForEvent('popup');
-  await builder.getByRole('link',{name:'Armar mi lote'}).click();
-  const popup = await popupPromise;
-  await popup.waitForLoadState();
-  expect(new URL(popup.url()).hostname).toBe('wa.me');
-  expect(new URL(popup.url()).searchParams.get('text')).toBe(await message(builder));
-  await popup.close();
+  await context.grantPermissions(['clipboard-read','clipboard-write']);
+  await builder.getByRole('button',{name:'Cotizar mi lote'}).click();
+  await expect(builder.locator('[data-bundle-status]')).toContainText('Lote copiado');
+  expect((await page.evaluate(()=>navigator.clipboard.readText())).replace(/\r\n/g,"\n")).toBe(await message(builder));
+  await expect(builder.getByRole('link',{name:'Abrir Discord y crear ticket'})).toHaveAttribute('href','https://discord.gg/KGnEsCutW');
+  await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
+
   await builder.getByRole('button',{name:'Quitar Emote · 500 pavos'}).click();
   await expect(builder.locator('[data-bundle-price]')).toHaveText('440');
+  await expect(builder.locator('[data-bundle-handoff]')).toBeHidden();
   expect(await message(builder)).not.toContain('Emote');
   await builder.locator('[data-bundle-add="2"]').click();
   await expect(builder.locator('[data-bundle-price]')).toHaveText('590');
@@ -121,3 +120,14 @@ for (const [name,width,height] of [['mobile',390,844],['desktop',1440,1000]]) {
     await builder.screenshot({path:`../validation/bundle-${name}.png`});
   });
 }
+
+test('clipboard denial provides selectable Discord summary', async ({page}) => {
+  const builder=await openBundle(page);
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('Denied'))},configurable:true}));
+  await builder.locator('[data-bundle-add="0"]').click();
+  await builder.getByRole('button',{name:'Cotizar mi lote'}).click();
+  await expect(builder.locator('[data-bundle-status]')).toContainText('Copia este resumen');
+  await expect(builder.getByRole('textbox')).toBeFocused();
+  await expect(builder.getByRole('textbox')).toHaveValue(/Total: \$175 MXN/);
+  await expect(builder.getByRole('link',{name:'Abrir Discord y crear ticket'})).toBeVisible();
+});

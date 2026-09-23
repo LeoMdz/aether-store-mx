@@ -1,4 +1,5 @@
 import { animate } from "animejs/animation";
+import { storeConfig } from "../config";
 
 // Shared animated summary, reused exclusively by the Fortnite gift bundle.
 export function CustomOrderBuilder() {
@@ -7,8 +8,13 @@ export function CustomOrderBuilder() {
     <ul data-bundle-items></ul>
     <div class="bundle-total"><span>TOTAL</span><strong class="price" aria-hidden="true">$<span data-bundle-price>0</span> <small>MXN</small></strong></div>
     <p class="sr-only" data-bundle-announcement role="status"></p>
-    <a class="game-button" data-bundle-order target="_blank" rel="noopener noreferrer">Armar mi lote</a>
-    <p class="service-note">Continúa en WhatsApp para confirmar los regalos y su disponibilidad.</p>
+    <button type="button" class="game-button" data-bundle-order>Cotizar mi lote</button>
+    <p class="service-note">Copia tu lote y pégalo en un ticket de Discord para confirmar disponibilidad y pago.</p>
+    <div class="product-handoff" data-bundle-handoff hidden>
+      <p role="status" data-bundle-status></p>
+      <textarea aria-label="Resumen del lote para Discord" data-bundle-message readonly></textarea>
+      <a class="outline-button" href="${storeConfig.discordUrl}" target="_blank" rel="noopener noreferrer">Abrir Discord y crear ticket ↗</a>
+    </div>
   </section>`;
 }
 
