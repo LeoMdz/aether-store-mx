@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
   );
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
-test("GTA rates, payment boundary and warranty quote", async ({ page }) => {
+test("GTA fixed tables and warranty quote", async ({ page }) => {
   await page.goto("/?juego=gta");
   await page.locator("#tab-gta").click();
   const panel = page.locator("#panel-gta");
@@ -16,60 +16,10 @@ test("GTA rates, payment boundary and warranty quote", async ({ page }) => {
     /Total: \$210 MXN/,
   );
   await panel.getByRole("tab", { name: "Millones", exact: true }).click();
-  const builder = panel.locator(".custom-order");
-  for (const [n, total] of [
-    [3, 8],
-    [12, 26],
-    [13, 28],
-    [30, 48],
-    [75, 88],
-    [201, 248],
-  ]) {
-    await builder.getByRole("spinbutton").fill(String(n));
-    await expect(builder.locator("[data-custom-price]")).toHaveText(
-      String(total),
-    );
-    expect(
-      await builder
-        .locator('[value="Throne"]')
-        .evaluate((el) => el.disabled && el.hidden),
-    ).toBe(n <= 12);
-  }
-  await builder.getByRole("spinbutton").fill("13");
-  await builder.locator("select").selectOption("Throne");
-  await builder.getByRole("spinbutton").fill("12");
-  await expect(builder.locator("select")).toHaveValue("PayPal");
-  await builder.getByRole("button", { name: "Cotizar mi pedido" }).click();
-  await expect(builder.locator("textarea")).toHaveValue(/Pago: PayPal/);
-  await expect(builder.locator("textarea")).toHaveValue(/24h/);
+  await expect(panel.locator('input[type="range"],input[type="number"]')).toHaveCount(0);
+  await expect(panel.locator('table')).toHaveCount(2);
 });
-test("Fortnite gifts switch without navigation, exact prices and Discord summary", async ({
-  page,
-}) => {
-  await page.goto("/");
-  await page.locator("#tab-fortnite").click();
-  const start = page.url();
-  const panel = page.locator("#panel-fortnite");
-  await expect(panel.locator(".custom-order")).toBeVisible();
-  await panel.getByRole("tab", { name: "Regalos de la Tienda" }).click();
-  await expect(panel.locator(".custom-order")).toBeHidden();
-  await expect(panel.locator(".gift-card")).toHaveCount(5);
-  await expect(panel.locator(".gift-badge")).toHaveCount(5);
-  await panel.locator('[data-quote-gift="3"]').click();
-  await expect(panel.locator("[data-product-handoff] textarea")).toHaveValue(
-    /Lotes · 2400 pavos/,
-  );
-  await expect(panel.locator("[data-product-handoff] textarea")).toHaveValue(
-    /\$240 MXN/,
-  );
-  await expect(panel.locator("[data-product-handoff] a")).toHaveAttribute(
-    "href",
-    "https://discord.gg/KGnEsCutW",
-  );
-  expect(page.url()).toBe(start);
-  await panel.getByRole("tab", { name: "Recargar Pavos" }).click();
-  await expect(panel.locator(".custom-order")).toBeVisible();
-});
+
 test("Reviews load near viewport and support arrows, dots and keyboard", async ({
   page,
 }) => {
@@ -109,7 +59,7 @@ for (const [name, width, height] of [
       const panel = page.locator(`#panel-${id}`);
       await panel.scrollIntoViewIfNeeded();
       if (id === "fortnite")
-        await panel.getByRole("tab", { name: "Regalos de la Tienda" }).click();
+        await panel.getByRole("tab", { name: "Tienda de Regalos" }).click();
       await page.screenshot({ path: `../validation/${name}-${id}-new.png` });
       expect(
         await page.evaluate(
@@ -118,7 +68,7 @@ for (const [name, width, height] of [
       ).toBeTruthy();
     }
     await page.locator("#tab-spotify").click();
-    await expect(page.locator(".saving-badge")).toHaveText([
+    await expect(page.locator("#panel-spotify .saving-badge")).toHaveText([
       "−30%",
       "−28%",
       "−40%",

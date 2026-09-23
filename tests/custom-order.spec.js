@@ -1,175 +1,123 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import prices from "../src/data/fortnite-prices.json" with { type: "json" };
+import gifts from "../src/data/fortnite-regalos.json" with { type: "json" };
 
+const fixed = [[800,125],[2400,290],[4500,490],[12500,1150]];
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() =>
-    sessionStorage.setItem("aether-welcome-seen", "1"),
-  );
+  await page.addInitScript(() => sessionStorage.setItem("aether-welcome-seen", "1"));
 });
-
-for (const [game, cases] of [
-  [
-    "freefire",
-    [
-      [50, 8],
-      [5600, 850],
-      [10000, 1518],
-    ],
-  ],
-  [
-    "fortnite",
-    [
-      [100, 10],
-      [1234, 123],
-      [3800, 380],
-    ],
-  ],
-]) {
-  test(`${game}: three custom quantities, slider and Discord summary`, async ({
-    page,
-    context,
-  }) => {
-    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-    await page.goto("/");
-    await page.locator(`#tab-${game}`).click();
-    const builder = page.locator(`[data-custom-game=${game}]`);
-    await builder.scrollIntoViewIfNeeded();
-    for (const [quantity, price] of cases) {
-      await builder.getByRole("spinbutton").fill(String(quantity));
-      await expect(builder.locator("[data-custom-price]")).toHaveText(
-        price.toLocaleString("es-MX"),
-      );
-      await expect(builder.getByRole("slider")).toHaveValue(String(quantity));
-      await builder.getByRole("button", { name: "Cotizar mi pedido" }).click();
-      const copied = await page.evaluate(() => navigator.clipboard.readText());
-      expect(copied).toContain(
-        `Cantidad: ${quantity} ${game === "freefire" ? "diamantes" : "pavos"}`,
-      );
-      expect(copied).toContain(
-        `Precio calculado: $${price.toLocaleString("es-MX")} MXN`,
-      );
-      expect(copied).toContain(
-        `Juego: ${game === "freefire" ? "Free Fire" : "Fortnite"}`,
-      );
-      await expect(builder.getByRole("textbox")).toHaveValue(
-        copied.replace(/\r\n/g, "\n"),
-      );
-      await expect(
-        builder.getByRole("link", { name: "Abrir Discord y crear ticket" }),
-      ).toHaveAttribute("href", "https://discord.gg/KGnEsCutW");
-    }
-    await builder.getByRole("slider").focus();
-    await page.keyboard.press("Home");
-    await page.keyboard.press("ArrowRight");
-    const min = game === "freefire" ? 50 : 100;
-    await expect(builder.getByRole("spinbutton")).toHaveValue(String(min + 1));
-    await expect(builder.locator(".custom-handoff")).toBeHidden();
-    await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
-  });
-}
-
-test("invalid quantities cannot produce or send a quote", async ({ page }) => {
+async function openBundle(page) {
   await page.goto("/");
-  const builder = page.locator("[data-custom-game=freefire]");
-  for (const invalid of ["49", "10001", "50.5", ""]) {
-    await builder.getByRole("spinbutton").fill(invalid);
-    await expect(
-      builder.getByRole("button", { name: "Cotizar mi pedido" }),
-    ).toBeDisabled();
-    await expect(builder.getByRole("spinbutton")).toHaveAttribute(
-      "aria-invalid",
-      "true",
-    );
-    await expect(builder.locator("[data-custom-price]")).toHaveText("—");
-    await expect(builder.locator(".custom-error")).toContainText(
-      "entre 50 y 10,000",
-    );
-  }
-  await builder.getByRole("spinbutton").fill("500");
-  await expect(
-    builder.getByRole("button", { name: "Cotizar mi pedido" }),
-  ).toBeEnabled();
-  await expect(builder.locator(".custom-error")).toBeEmpty();
-});
-
-test("better fixed package is suggested and can be added to cart", async ({
-  page,
-}) => {
-  await page.goto("/");
-  const builder = page.locator("[data-custom-game=fortnite]");
   await page.locator("#tab-fortnite").click();
-  await builder.getByRole("spinbutton").fill("499");
-  await expect(builder.locator(".custom-suggestion")).toContainText(
-    "500 pavos",
-  );
-  await expect(builder.locator(".custom-suggestion")).toContainText(
-    "al mismo precio",
-  );
-  await builder
-    .getByRole("button", { name: "Elegir paquete recomendado" })
-    .click();
-  await page.getByRole("button", { name: /Abrir carrito/ }).click();
-  await expect(page.getByRole("dialog")).toContainText("Emote · 500 pavos");
-  await expect(page.locator(".cart-total")).toContainText("$50");
-});
+  await page.getByRole("tab", { name: "Tienda de Regalos" }).click();
+  return page.locator("[data-gift-bundle]");
+}
+const message = async (builder) => new URL(await builder.locator('[data-bundle-order]').getAttribute('href')).searchParams.get('text');
 
-test("clipboard failure offers the exact selectable order and Xbox remains fixed", async ({
-  page,
-}) => {
+test("fixed catalogs and Crew replace all free-quantity controls", async ({ page }) => {
+  expect(prices.paquetes.map(p => [p.pavos,p.precio])).toEqual(fixed);
+  expect(gifts.pavosBase).toEqual(prices.paquetes);
   await page.goto("/");
-  await page.evaluate(() =>
-    Object.defineProperty(navigator, "clipboard", {
-      value: { writeText: () => Promise.reject(new Error("Denied")) },
-      configurable: true,
-    }),
-  );
-  const builder = page.locator("[data-custom-game=freefire]");
-  await builder.getByRole("spinbutton").fill("1234");
-  await builder.getByRole("button", { name: "Cotizar mi pedido" }).click();
-  await expect(builder.locator(".custom-contact-status")).toContainText(
-    "Copia este resumen",
-  );
-  await expect(builder.getByRole("textbox")).toHaveValue(
-    /Cantidad: 1234 diamantes/,
-  );
-  await expect(builder.getByRole("textbox")).toBeFocused();
-  await page.locator("#tab-xbox").click();
-  await expect(page.locator("#panel-xbox [data-custom-game]")).toHaveCount(0);
-  await expect(page.locator("#panel-xbox tbody tr")).toHaveCount(5);
+  for (const [id, rows] of [["freefire",6],["gta",11],["fortnite",4],["xbox",5],["spotify",4]]) {
+    await page.locator(`#tab-${id}`).click();
+    const panel = page.locator(`#panel-${id}`);
+    if (id === 'gta') await panel.getByRole('tab',{name:'Millones',exact:true}).click();
+    await expect(panel.locator('tbody tr')).toHaveCount(rows);
+    await expect(panel.locator('input[type="range"],input[type="number"],[data-custom-game]')).toHaveCount(0);
+    if (id !== 'fortnite') await expect(panel.locator('[data-gift-bundle]')).toHaveCount(0);
+  }
+  await page.locator('#tab-fortnite').click();
+  const reload = page.locator('#fortnite-view-0');
+  await expect(reload.locator('td.price')).toHaveText(['$125 MXN','$290 MXN','$490 MXN','$1,150 MXN']);
+  await expect(reload.locator('[data-gift-bundle],.bundle-summary')).toHaveCount(0);
+  await expect(reload.locator('.crew-card')).toContainText('Fortnite Crew');
+  await expect(reload.locator('.crew-card')).toContainText('$135 MXN');
+  await expect(reload.locator('.saving-badge')).toHaveText('Ahorro del 45%');
+  await reload.getByRole('button',{name:'Agregar Fortnite Crew al carrito'}).click();
+  await reload.locator('[data-add="fn-pavos-800"]').click();
+  await page.getByRole('button',{name:/Abrir carrito/}).click();
+  await expect(page.locator('.cart-total')).toContainText('$260');
 });
 
-for (const [device, width, height] of [
-  ["mobile", 390, 844],
-  ["desktop", 1440, 1000],
-]) {
-  test(`${device}: personalized builder visual and accessibility`, async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width, height });
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/");
-    await page.locator("[data-custom-game=freefire]").scrollIntoViewIfNeeded();
-    await page.locator("#custom-number-freefire").fill("5599");
-    await expect(
-      page.locator("[data-custom-game=freefire] .custom-suggestion"),
-    ).toBeVisible();
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
-    ).toBeTruthy();
-    const results = await new AxeBuilder({ page })
-      .include("#panel-freefire")
-      .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
-      .analyze();
-    expect(
-      results.violations.map((v) => ({
-        id: v.id,
-        nodes: v.nodes.map((n) => n.target),
-      })),
-    ).toEqual([]);
-    await page
-      .locator("[data-custom-game=freefire]")
-      .screenshot({ path: `../validation/custom-${device}.png` });
+test("base plus two extras, removal, duplicates and WhatsApp handoff", async ({ page, context }) => {
+  const builder = await openBundle(page);
+  await builder.getByRole('combobox').selectOption('1');
+  await builder.locator('[data-bundle-add="0"]').click();
+  await builder.locator('[data-bundle-add="2"]').click();
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('490');
+  await expect(builder.locator('[data-bundle-items] li')).toHaveCount(3);
+  expect(await message(builder)).toContain('Pavos base: 2,400 pavos · $290 MXN');
+  expect(await message(builder)).toContain('Extra: Emote · 500 pavos · $50 MXN');
+  expect(await message(builder)).toContain('Extra: Skin · 1,500 pavos · $150 MXN');
+  expect(await message(builder)).toContain('Total: $490 MXN');
+  // Intercept the external navigation; no message is sent during testing.
+  await context.route('https://wa.me/**', route => route.fulfill({body:'WhatsApp handoff verified'}));
+  const popupPromise = page.waitForEvent('popup');
+  await builder.getByRole('link',{name:'Armar mi lote'}).click();
+  const popup = await popupPromise;
+  await popup.waitForLoadState();
+  expect(new URL(popup.url()).hostname).toBe('wa.me');
+  expect(new URL(popup.url()).searchParams.get('text')).toBe(await message(builder));
+  await popup.close();
+  await builder.getByRole('button',{name:'Quitar Emote · 500 pavos'}).click();
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('440');
+  expect(await message(builder)).not.toContain('Emote');
+  await builder.locator('[data-bundle-add="2"]').click();
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('590');
+  expect((await message(builder)).match(/Extra: Skin/g)).toHaveLength(2);
+  await builder.getByRole('combobox').selectOption('3');
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('1,450');
+  await builder.locator('[data-bundle-remove]').first().click();
+  await builder.locator('[data-bundle-remove]').first().click();
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('1,150');
+  expect(await message(builder)).not.toContain('Extra:');
+});
+
+test("all bases, optional extras, rapid changes and tab persistence", async ({ page }) => {
+  const builder = await openBundle(page);
+  for (const [i,[pavos,price]] of fixed.entries()) {
+    await builder.getByRole('combobox').selectOption(String(i));
+    await expect(builder.locator('[data-bundle-price]')).toHaveText(price.toLocaleString('es-MX'));
+    expect(await message(builder)).toContain(`Pavos base: ${pavos.toLocaleString('es-MX')} pavos`);
+  }
+  await builder.getByRole('combobox').selectOption('0');
+  for(let i=0;i<5;i++) await builder.locator(`[data-bundle-add="${i}"]`).click();
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('1,065');
+  await page.getByRole('tab',{name:'Recargar Pavos'}).click();
+  await expect(builder).toBeHidden();
+  await page.locator('#tab-freefire').click();
+  await page.locator('#tab-fortnite').click();
+  await page.getByRole('tab',{name:'Tienda de Regalos'}).click();
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('1,065');
+  await builder.evaluate(root => {
+    const add = root.querySelector('[data-bundle-add="0"]');
+    add.click(); add.click();
+    root.querySelector('[data-bundle-remove]').click();
+  });
+  expect(await message(builder)).toContain('Total: $1,115 MXN');
+  await expect(builder.locator('[data-bundle-price]')).toHaveText('1,115');
+});
+
+for (const [name,width,height] of [['mobile',390,844],['desktop',1440,1000]]) {
+  test(`${name}: bundle keyboard, reduced motion, accessibility and layout`, async ({ page }) => {
+    await page.setViewportSize({width,height});
+    await page.emulateMedia({reducedMotion:'reduce'});
+    const errors=[];
+    page.on('pageerror', e=>errors.push(e.message));
+    const builder=await openBundle(page);
+    await builder.getByRole('combobox').focus();
+    await page.keyboard.press('Home');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
+    await expect(builder.locator('[data-bundle-price]')).toHaveText('340');
+    await builder.locator('[data-bundle-add="2"]').click();
+    await expect(builder.locator('[data-bundle-price]')).toHaveText('490');
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+    const audit=await new AxeBuilder({page}).include('#panel-fortnite').withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+    expect(audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))).toEqual([]);
+    expect(errors).toEqual([]);
+    await builder.screenshot({path:`../validation/bundle-${name}.png`});
   });
 }

@@ -1,53 +1,27 @@
 {
-  "unidad": "pavos",
-  "tasaBase": 0.1,
-  "minimoPersonalizado": 100,
-  "maximoPersonalizado": 10000,
-  "personalizadoHabilitado": true,
-  "paqueteBase": "fn-3800",
-  "paquetesFijos": [
+  "paquetes": [
     {
-      "id": "fn-ref",
-      "label": "100 pavos",
-      "price": 10,
-      "group": "Referencia",
-      "reference": true,
-      "amount": 100
+      "pavos": 800,
+      "precio": 125
     },
     {
-      "id": "fn-500",
-      "label": "Emote · 500 pavos",
-      "price": 50,
-      "group": "Regalos",
-      "amount": 500
+      "pavos": 2400,
+      "precio": 290
     },
     {
-      "id": "fn-1200",
-      "label": "Skin · 1,200 pavos",
-      "price": 120,
-      "group": "Regalos",
-      "amount": 1200
+      "pavos": 4500,
+      "precio": 490
     },
     {
-      "id": "fn-1500",
-      "label": "Skin · 1,500 pavos",
-      "price": 150,
-      "group": "Regalos",
-      "amount": 1500
-    },
-    {
-      "id": "fn-2400",
-      "label": "Lote · 2,400 pavos",
-      "price": 240,
-      "group": "Regalos",
-      "amount": 2400
-    },
-    {
-      "id": "fn-3800",
-      "label": "Lote · 3,800 pavos",
-      "price": 380,
-      "group": "Regalos",
-      "amount": 3800
+      "pavos": 12500,
+      "precio": 1150
     }
-  ]
+  ],
+  "crew": {
+    "nombre": "Fortnite Crew",
+    "duracion": "1 mes",
+    "precio": 135,
+    "ahorro": 45
+  },
+  "moneda": "MXN"
 }

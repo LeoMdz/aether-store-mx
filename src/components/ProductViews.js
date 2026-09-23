@@ -1,4 +1,4 @@
-import { gifts, gtaCheteo } from "../data/catalog";
+import { gtaCheteo } from "../data/catalog";
 import { storeConfig } from "../config";
 export function initProductViews() {
   document.querySelectorAll("[data-product-views]").forEach((root) => {
@@ -39,26 +39,19 @@ export function initProductViews() {
     }),
   );
   document.addEventListener("click", async (e) => {
-    const button = e.target.closest("[data-quote-gift],[data-quote-level]");
+    const button = e.target.closest("[data-quote-level]");
     if (!button) return;
-    let message, root;
-    if (button.hasAttribute("data-quote-gift")) {
-      const p = gifts.categorias[Number(button.dataset.quoteGift)];
-      message = `Pedido Aether Store MX\nFortnite · Regalos de la Tienda\n${p.tipo} · ${p.pavos} pavos de referencia\nPrecio: $${p.precio} MXN${p.nota ? "\n" + p.nota : ""}\nConfirmar ítem exacto y disponibilidad.`;
-      root = button.closest(".gift-shop");
-    } else {
-      const p = gtaCheteo.planes.find(
-        (p) => p.id === button.dataset.quoteLevel,
-      );
-      const warranty =
-        button.closest("[data-level]").querySelector("[data-warranty]")
-          ?.checked || !p.garantia;
-      message = `Pedido Aether Store MX\nGTA Online · Cheteo de cuenta · PC Enhanced\n${p.nombre}\n${p.caracteristicas.join(", ")}\nGarantía: ${warranty ? "incluida en este pedido" : "sin garantía opcional"}\nTotal: $${p.precio + (warranty ? p.garantia : 0)} MXN\n${gtaCheteo.nota}\nPago: ${gtaCheteo.metodosPago.join(" / ")}. Confirmar método en ticket.`;
-      root = button.closest(".product-view");
-    }
+    const p = gtaCheteo.planes.find(
+      (p) => p.id === button.dataset.quoteLevel,
+    );
+    const warranty =
+      button.closest("[data-level]").querySelector("[data-warranty]")
+        ?.checked || !p.garantia;
+    const message = `Pedido Aether Store MX\nGTA Online · Cheteo de cuenta · PC Enhanced\n${p.nombre}\n${p.caracteristicas.join(", ")}\nGarantía: ${warranty ? "incluida en este pedido" : "sin garantía opcional"}\nTotal: $${p.precio + (warranty ? p.garantia : 0)} MXN\n${gtaCheteo.nota}\nPago: ${gtaCheteo.metodosPago.join(" / ")}. Confirmar método en ticket.`;
+    const root = button.closest(".product-view");
     const handoff = root.querySelector("[data-product-handoff]");
     handoff.hidden = false;
-    handoff.className = "custom-handoff";
+    handoff.className = "product-handoff";
     handoff.innerHTML = `<p role="status">Copia el resumen y pégalo en tu ticket.</p><textarea aria-label="Resumen del pedido" readonly></textarea><a class="outline-button" href="${storeConfig.discordUrl}" target="_blank" rel="noopener noreferrer">Abrir Discord y crear ticket ↗</a><p>No se ha enviado un pedido ni realizado un cobro.</p>`;
     handoff.querySelector("textarea").value = message;
     try {

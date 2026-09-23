@@ -77,16 +77,15 @@ test("all prices and tabs, keyboard navigation and global neutral identity", asy
   for (const [id, prices, accent] of [
     ["freefire", [18, 55, 89, 185, 370, 850], "#ff334c"],
     ["xbox", [270, 850, 450, 930, 1299], "#83f750"],
-    ["fortnite", [50, 120, 150, 240, 380], "#42dfff"],
+    ["fortnite", [125, 290, 490, 1150], "#42dfff"],
   ]) {
     await page.locator(`#tab-${id}`).click();
     const panel = page.locator(`#panel-${id}`);
     await expect(panel).toBeVisible();
-    if (id === "fortnite")
-      await panel.getByRole("tab", { name: "Regalos de la Tienda" }).click();
+
     expect(
       await panel
-        .locator(id === "fortnite" ? ".gift-card .price" : "td.price")
+        .locator("td.price")
         .allTextContents(),
     ).toEqual(prices.map((p) => `$${p.toLocaleString("en-US")} MXN`));
     expect(

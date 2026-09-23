@@ -1,10 +1,5 @@
 {
   "unidad": "millones GTA$",
-  "tasaBase": 1.2338308457711442,
-  "modoTarifa": "paquete-cercano",
-  "minimoPersonalizado": 3,
-  "maximoPersonalizado": 201,
-  "personalizadoHabilitado": true,
   "nota": "30 millones diarios máximo, resto pendiente 24h+",
   "paquetesFijos": [
     {

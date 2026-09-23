@@ -1,28 +1,45 @@
 {
-  "categorias": [
+  "pavosBase": [
     {
-      "tipo": "Emotes",
+      "pavos": 800,
+      "precio": 125
+    },
+    {
+      "pavos": 2400,
+      "precio": 290
+    },
+    {
+      "pavos": 4500,
+      "precio": 490
+    },
+    {
+      "pavos": 12500,
+      "precio": 1150
+    }
+  ],
+  "extras": [
+    {
+      "tipo": "Emote",
       "pavos": 500,
       "precio": 50
     },
     {
-      "tipo": "Skins",
+      "tipo": "Skin",
       "pavos": 1200,
       "precio": 120
     },
     {
-      "tipo": "Skins",
+      "tipo": "Skin",
       "pavos": 1500,
       "precio": 150
     },
     {
-      "tipo": "Lotes",
+      "tipo": "Lote",
       "pavos": 2400,
-      "precio": 240,
-      "nota": "incluye monturas/lote decorativo"
+      "precio": 240
     },
     {
-      "tipo": "Lotes",
+      "tipo": "Lote",
       "pavos": 3800,
       "precio": 380
     }

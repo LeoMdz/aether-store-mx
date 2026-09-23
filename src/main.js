@@ -16,6 +16,7 @@ import "animate.css/source/_base.css";
 import "animate.css/source/fading_entrances/fadeInUp.css";
 import "./styles/base.css";
 import "./styles/themes.css";
+import "./styles/gift-bundle.css";
 import {
   createIcons,
   Search,
@@ -52,7 +53,7 @@ import { setupThemeSwitcher } from "./utils/theme-switcher";
 import { initLenis } from "./lib/lenis";
 import { observeAssets, initAnimations } from "./lib/animations";
 import { SplashScreen } from "./components/SplashScreen";
-import { initCustomOrderBuilders } from "./components/CustomOrderBuilder";
+import { initGiftBundleBuilders } from "./components/GiftBundleBuilder";
 
 const icons = {
   Search,
@@ -229,7 +230,7 @@ function openDialog(type) {
 }
 const switcher = setupThemeSwitcher();
 observeAssets();
-initCustomOrderBuilders(themes, data);
+initGiftBundleBuilders();
 SplashScreen({ lenis: initLenis() }).then(() => initAnimations());
 updateCount();
 renderIcons();

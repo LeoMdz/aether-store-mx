@@ -1,0 +1,53 @@
+/* Scoped to Fortnite; colors inherit its existing theme tokens. */
+.crew-card,
+.bundle-summary {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid var(--accent);
+  background: var(--theme-surface);
+}
+.crew-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.crew-card > div { flex: 1; }
+.crew-card h4,
+.gift-bundle h4 { font-size: 26px; }
+.crew-card .price,
+.bundle-total .price { font-size: 30px; }
+.gift-bundle h4 { margin-bottom: 16px; }
+.gift-bundle h4 > span { font-size: 16px; color: #bdc8da; }
+.gift-bundle select {
+  width: 100%;
+  margin-bottom: 28px;
+  padding: 14px;
+  border: 1px solid var(--accent);
+  background: var(--theme-surface);
+  color: #fff;
+  font: inherit;
+}
+.gift-bundle .gift-card h5 { font-size: 28px; }
+.gift-bundle .gift-card p,
+.gift-bundle .gift-card .game-button,
+.gift-bundle .service-note { font-size: 14px; }
+.bundle-summary ul { list-style: none; padding: 0; }
+.bundle-summary li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #ffffff26;
+}
+.bundle-summary li > span { flex: 1 1 180px; }
+.bundle-summary li > strong { white-space: nowrap; }
+.bundle-summary li button { min-height: 44px; padding: 8px 12px; }
+.bundle-total { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 24px 0; }
+.bundle-summary > .game-button { width: 100%; justify-content: center; }
+@media (max-width: 600px) {
+  .crew-card, .bundle-summary { padding: 18px; }
+  .gift-bundle .gift-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .crew-card > .game-button { width: 100%; justify-content: center; }
+}

@@ -1,5 +1,4 @@
-import { CustomOrderBuilder } from "./CustomOrderBuilder";
-import { GiftShopGrid } from "./GiftShopGrid";
+import { GiftBundleBuilder } from "./GiftBundleBuilder";
 import { gtaCheteo } from "../data/catalog";
 export const money = (value) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value);
@@ -20,13 +19,16 @@ function gtaPlans() {
   return `<p class="delivery-warning">${gtaCheteo.nota}</p><p class="service-note">PC Enhanced · PayPal · Throne · Transferencia/Depósito (solo México)</p><div class="level-grid">${gtaCheteo.planes.map((p, i) => `<article class="level-card" data-level="${p.id}"><span class="level-medal" aria-hidden="true">${["🥇", "🥈", "🥉"][i]}</span><h4>${p.nombre}</h4><strong class="price" data-level-price>$${p.precio} <small>MXN</small></strong><ul>${p.caracteristicas.map((f) => `<li>${f}</li>`).join("")}</ul>${p.garantia ? `<label class="warranty-option"><input type="checkbox" data-warranty> Garantía opcional +$${p.garantia} MXN</label>` : '<p class="warranty-option">Garantía incluida gratis</p>'}<button class="game-button" data-quote-level="${p.id}">Cotizar ${p.nombre}</button></article>`).join("")}</div><p class="service-note">Garantía: reemplazo por otra cuenta del nivel contratado si hay un baneo. Confirma condiciones en tu ticket.</p><div data-product-handoff hidden></div>`;
 }
 export function PriceTable(theme, pricing, active = false) {
-  let content =
-    table(theme, pricing.paquetesFijos) + CustomOrderBuilder(theme, pricing);
+  let content = table(theme, pricing.paquetesFijos);
   if (theme.id === "fortnite")
     content = variants(
       "fortnite",
-      ["Recargar Pavos", "Regalos de la Tienda"],
-      [CustomOrderBuilder(theme, pricing), GiftShopGrid(theme)],
+      ["Recargar Pavos", "Tienda de Regalos"],
+      [
+        table(theme, pricing.paquetesFijos.filter((p) => p.group === "Pavos")) +
+          `<article class="crew-card"><div><span class="product-badge">DESTACADO</span><h4>${pricing.crew.nombre}</h4><p>${pricing.crew.duracion}</p><span class="saving-badge">Ahorro del ${pricing.crew.ahorro}%</span></div><strong class="price">$${money(pricing.crew.precio)} <small>MXN</small></strong><button class="game-button" data-add="fn-crew" aria-label="Agregar Fortnite Crew al carrito">Agregar Crew</button></article>`,
+        GiftBundleBuilder(),
+      ],
     );
   if (theme.id === "gta")
     content = variants(
@@ -42,7 +44,7 @@ export function PriceTable(theme, pricing, active = false) {
           theme,
           pricing.paquetesFijos.filter((p) => p.group === "Grandes"),
           "Paquetes grandes",
-        )}${CustomOrderBuilder(theme, pricing)}`,
+        )}`,
       ],
     );
   return `<div class="price-panel" id="panel-${theme.id}" role="tabpanel" aria-labelledby="tab-${theme.id}" tabindex="0" data-theme="${theme.id}" ${active ? "" : "hidden"}><div class="price-intro"><span class="large-icon"><i data-lucide="${theme.icon}"></i></span><h3>${theme.name}<br><span>${theme.unit}</span></h3><p>${theme.description}</p><div class="delivery-note"><i data-lucide="shield-check"></i><span>${theme.delivery}</span></div><p class="reference-note">Elige tu producto y confirma tu pedido en Discord.</p></div><div class="product-content">${content}</div></div>`;
